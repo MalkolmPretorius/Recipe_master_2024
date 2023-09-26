@@ -8,6 +8,4 @@ require_once '../core/init.php';
 require_once '../app/routers/index.php';
 
 // 3. Charge le template
-if (!isset($_GET['api'])) :
-    require_once '../app/views/templates/index.php';
-endif;
+require_once '../app/views/templates/index.php';
