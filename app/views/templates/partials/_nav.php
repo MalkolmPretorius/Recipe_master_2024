@@ -42,12 +42,12 @@
               />
               <a
                 class="text-white hover:text-yellow-500 px-3 py-2"
-                href="recipes.html"
+                href="recipes"
                 >Recettes</a
               >
               <a
                 class="text-white hover:text-yellow-500 px-3 py-2"
-                href="chefs.html"
+                href="chefs"
                 >Chefs</a
               >
             </div>

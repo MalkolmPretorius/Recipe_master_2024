@@ -6,6 +6,15 @@ RewriteEngine on
 # ROUTES
 #--------------------------------------------------
 
+# ROUTE LISTE DES recettes
+# PATTERN: /recipes
+# TARGET: ?recipes=index
+RewriteRule ^recipes$ index.php?recipes=index [L]
+
+# ROUTE LISTE DES chefs
+# PATTERN: /chefs
+# TARGET: ?chefs=index
+RewriteRule ^chefs$ index.php?chefs=index [L]
 
 
 # -------------------------------------------------
