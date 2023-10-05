@@ -1,3 +1,5 @@
+
+
 <section class="relative mb-6">
 <?php foreach ($randomRecipes as $randomRecipe) : ?>
           <img
@@ -27,7 +29,7 @@
               >
             </div>
             <a
-              href="recipe.html"
+              href="recipes/<?php echo $randomRecipe['id']; ?>/<?php echo Core\Tools\slugify($randomRecipe['nom_recette']);?>"
               class="inline-block bg-red-500 hover:bg-red-800 rounded-full px-4 py-2 text-white"
             >
               Voir la recette

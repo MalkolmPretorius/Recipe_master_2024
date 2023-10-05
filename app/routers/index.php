@@ -1,10 +1,10 @@
 <?php  
 if(isset($_GET['recipes'])) :
-    include_once '../app/controllers/recipesController.php';
-    \App\Controllers\RecipesController\indexAction($connexion);
+    include_once '../app/routers/recipes.php';
+
 elseif(isset($_GET['chefs'])) :
-    include_once '../app/controllers/chefsController.php';
-    \App\Controllers\ChefsController\indexAction($connexion);
+    include_once '../app/routers/chefs.php';
+
 else:
 include_once '../app/controllers/pagesController.php';
     \App\Controllers\PagesController\homeAction($connexion);

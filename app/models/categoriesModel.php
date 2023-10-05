@@ -10,3 +10,10 @@ function findAll(\PDO $connexion): array
     $rs = $connexion->query($sql);
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
+
+function findAllById(\PDO $connexion): array
+{
+    $sql = "";
+    $rs = $connexion->query($sql);
+    return $rs->fetchAll(\PDO::FETCH_ASSOC);
+}

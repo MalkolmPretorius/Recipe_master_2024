@@ -19,7 +19,7 @@
                   <?php echo $lastRecipe['description_recette'] ?>
                   </p>
                   <a
-                    href="recipe_detail.html"
+                    href="recipes/<?php echo $lastRecipe['id']; ?>/<?php echo Core\Tools\slugify($lastRecipe['nom_recette']);?>"
                     class="text-yellow-500 hover:text-yellow-600 mt-2 inline-block"
                     >Voir la recette</a
                   >

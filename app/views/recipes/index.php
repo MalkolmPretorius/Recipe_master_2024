@@ -17,7 +17,7 @@
                   <span class="text-yellow-500 mr-1"
                     ><i class="fas fa-star"></i
                   ></span>
-                  <span>4.5</span>
+                  <span><?php echo $recipe['notation_moyenne'] ?></span>
                 </div>
                 <p class="text-gray-600"><?php echo $recipe['description_recette'] ?></p>
                 <div class="flex items-center mt-4">
@@ -27,7 +27,7 @@
                   >
                 </div>
                 <a
-                  href="recipe.html"
+                  href="recipes/<?php echo $recipe['id']; ?>/<?php echo Core\Tools\slugify($recipe['nom_recette']);?>"
                   class="inline-block mt-4 bg-red-500 hover:bg-red-800 rounded-full px-4 py-2 text-white"
                 >
                   Voir la recette

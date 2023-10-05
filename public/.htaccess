@@ -11,17 +11,30 @@ RewriteEngine on
 # TARGET: ?recipes=index
 RewriteRule ^recipes$ index.php?recipes=index [L]
 
+# ROUTE DÉTAILS D'UNE RECETTE
+# PATTERN: /recipes/{id}/{slug}
+# TARGET: ?recipes=show&id=x
+RewriteRule ^recipes/([1-9][0-9]*)/([a-z0-9][a-z0-9\-]*)*[a-z0-9]$ index.php?recipes=show&id=$1 [L]
+
+
 # ROUTE LISTE DES chefs
 # PATTERN: /chefs
 # TARGET: ?chefs=index
 RewriteRule ^chefs$ index.php?chefs=index [L]
 
+# ROUTE DÉTAILS D'UN CHEF
+# PATTERN: /chefs/{id}/{slug}
+# TARGET: ?chefs=show&id=x
+RewriteRule ^chefs/([1-9][0-9]*)/([a-z0-9][a-z0-9\-]*)*[a-z0-9]$ index.php?chefs=show&id=$1[L]
+
+
+
 
 # -------------------------------------------------
 # API ENDPOINTS
 # -------------------------------------------------
-
-
+# ROUTE par défault
+RewriteRule ^home$ index.php [L]
 # --------------------------------------------------
 RewriteCond %{REQUEST_URI} !\.(js|css|jpg|gif|zip|png|pdf)$ [NC]
-RewriteRule ^(.*)$ index.php [L]
+# RewriteRule ^(.*)$ index.php [L]
