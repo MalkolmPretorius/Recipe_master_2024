@@ -7,7 +7,7 @@
 
 <div class="pb-4">
     <?php foreach ($comments as $comment) : ?>
-        <span class="hover:text-yellow-500  px-2 block">
+        <span class="  px-2 block">
             <?php echo $comment['content']; ?>
     </span>
     <?php endforeach; ?>

@@ -7,7 +7,7 @@
             <section class="relative mb-6">
               <img
                 class="w-full h-96 object-cover"
-                src="../../../documents/pictures/<?php echo $chef['picture']?>"
+                src="../documents/pictures/<?php echo $chef['picture']?>"
                 alt="User Profile Image"
               />
               <div

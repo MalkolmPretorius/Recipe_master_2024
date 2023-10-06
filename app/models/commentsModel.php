@@ -8,7 +8,7 @@ function findAllByDishesId(\PDO $connexion, int $id): array
             FROM comments c
             JOIN  dishes d ON c.dish_id = d.id
             WHERE d.id = :id
-            ORDER BY c.created_at ASC;";
+            ORDER BY d.id ASC;";
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':id', $id, \PDO::PARAM_INT);
     $rs->execute();

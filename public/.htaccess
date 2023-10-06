@@ -25,10 +25,17 @@ RewriteRule ^chefs$ index.php?chefs=index [L]
 # ROUTE DÉTAILS D'UN CHEF
 # PATTERN: /chefs/{id}/{slug}
 # TARGET: ?chefs=show&id=x
-RewriteRule ^chefs/([1-9][0-9]*)/([a-z0-9][a-z0-9\-]*)*[a-z0-9]$ index.php?chefs=show&id=$1[L]
+RewriteRule ^chefs/([1-9][0-9]*)/([a-z0-9][a-z0-9\-]*)*[a-z0-9]$ index.php?chefs=show&id=$1 [L]
 
+# ROUTE LISTE DES categories
+# PATTERN: /categories
+# TARGET: ?categories=show&id=x
+RewriteRule ^categories/([1-9][0-9]*)/([a-z0-9][a-z0-9\-]*)*[a-z0-9]$ index.php?categories=show&id=$1
 
-
+# ROUTE LISTE DES ingrédients
+# PATTERN: /ingredients
+# TARGET: ?ingredients=show&id=x
+RewriteRule ^ingredients/([1-9][0-9]*)/([a-z0-9][a-z0-9\-]*)*[a-z0-9]$ index.php?ingredients=show&id=$1
 
 # -------------------------------------------------
 # API ENDPOINTS

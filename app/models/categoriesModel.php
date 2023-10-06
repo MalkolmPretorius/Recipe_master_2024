@@ -11,9 +11,17 @@ function findAll(\PDO $connexion): array
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
 
-function findAllById(\PDO $connexion): array
+function findAllRecipesById(\PDO $connexion, int $id): array
 {
-    $sql = "";
-    $rs = $connexion->query($sql);
+    $sql = "SELECT tod.*, d.name AS nom_recette, d.description AS description_recette, ROUND(AVG(r.value),1) AS notation
+            FROM types_of_dishes tod
+            JOIN dishes d ON d.type_id = tod.id
+            JOIN ratings r ON r.dish_id = d.id
+            WHERE tod.id = :id
+            GROUP BY d.id
+            ORDER BY tod.name ASC;";
+    $rs = $connexion->prepare($sql);
+    $rs->bindValue(':id', $id, \PDO::PARAM_INT);
+    $rs->execute();
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }

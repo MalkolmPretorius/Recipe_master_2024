@@ -22,7 +22,8 @@ function findAll(\PDO $connexion): array
             LEFT JOIN dishes d ON u.id = d.user_id
             LEFT JOIN ratings r ON d.id = r.dish_id
             GROUP BY u.id, u.name, u.created_at
-            ORDER BY notation_moyenne DESC;";
+            ORDER BY notation_moyenne DESC
+            LIMIT 9;";
     $rs = $connexion->query($sql);
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }

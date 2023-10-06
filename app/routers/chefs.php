@@ -6,8 +6,8 @@ switch ($_GET['chefs']):
         \App\Controllers\ChefsController\indexAction($connexion);
         break;
 
-    // case 'show':
-    //     include_once '../app/controllers/chefsController.php';
-    //     \App\Controllers\ChefsController\showAction($connexion,$_GET['id']);
-    //     break;
+    case 'show':
+        include_once '../app/controllers/chefsController.php';
+        \App\Controllers\ChefsController\showAction($connexion,$_GET['id']);
+        break;
 endswitch;

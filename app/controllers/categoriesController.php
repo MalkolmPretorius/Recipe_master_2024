@@ -4,15 +4,16 @@ namespace App\Controllers\CategoriesController;
 
 use \App\Models\CategoriesModel;
 
-function indexAction(\PDO $connexion)
+function ShowAction(\PDO $connexion, int $id)
 {
     
-    include_once '../app/models/chefsModel.php';
-    $categories = \App\Models\ChefsModel\findAll($connexion);
+    include_once '../app/models/categoriesModel.php';
+    $categories = \App\Models\CategoriesModel\findAllRecipesById($connexion, $id);
     
     global $title, $content;
-    $title = $categories['name'];
+    $title = "Catégories";
     ob_start();
-    include '../app/views/chefs/index.php';
+    include '../app/views/categories/index.php';
     $content = ob_get_clean();
 }
+
