@@ -5,10 +5,118 @@ RewriteEngine on
 #--------------------------------------------------
 # ROUTES
 #--------------------------------------------------
-#Route des users
-#Logout
-#Pattern  users/logout
- RewriteRule ^users/logout$ index.php?users=logout [L]
+# ROUTE DE LOGOUT
+# PATTERN: /users/logout
+# TARGET: ?users=logout
+RewriteRule ^users\/logout$ index.php?users=logout [L]
+
+# ROUTE DES CATEGORIES -------------
+
+# CATEGORIES.INDEX
+# PATTERN: /categories
+# TARGET: ?categories=index
+RewriteRule ^categories$ index.php?categories=index [L]
+
+# CATEGORIES.ADD
+# PATTERN: /categories/add
+# TARGET: ?categories=add
+RewriteRule ^categories\/add$ index.php?categories=add [L]
+
+# CATEGORIES.CREATE
+# PATTERN: /categories/create
+# TARGET: ?categories=create
+RewriteRule ^categories\/create$ index.php?categories=create [L]
+
+# CATEGORIES.DELETE
+# PATTERN: /categories/delete
+# TARGET: ?categories=delete
+RewriteRule ^categories\/([1-9][0-9]*)\/delete$ index.php?categories=delete&id=$1 [L]
+
+# CATEGORIES.update
+# PATTERN: /categories/update/form
+# TARGET: ?categories=updateForm
+RewriteRule ^categories\/([1-9][0-9]*)\/update/form$ index.php?categories=updateForm&id=$1 [L]
+
+# CATEGORIES.update
+# PATTERN: /categories/update
+# TARGET: ?categories=update
+RewriteRule ^categories/update$ index.php?categories=update [L]
+
+# ROUTE DES users -------------
+
+# users.INDEX
+# PATTERN: /users
+# TARGET: ?users=index
+RewriteRule ^users$ index.php?users=index [L]
+
+# users.ADD
+# PATTERN: /users/add
+# TARGET: ?users=add
+RewriteRule ^users\/add$ index.php?users=add [L]
+
+# users.CREATE
+# PATTERN: /users/create
+# TARGET: ?users=create
+RewriteRule ^users\/create$ index.php?users=create [L]
+
+# users.DELETE
+# PATTERN: /users/delete
+# TARGET: ?users=delete
+RewriteRule ^users\/([1-9][0-9]*)\/delete$ index.php?users=delete&id=$1 [L]
+
+# users.update
+# PATTERN: /users/update/form
+# TARGET: ?users=updateForm
+RewriteRule ^users\/([1-9][0-9]*)\/update/form$ index.php?users=updateForm&id=$1 [L]
+
+# users.update
+# PATTERN: /users/update
+# TARGET: ?users=update
+RewriteRule ^users/update$ index.php?users=update [L]
+
+# ROUTE DES NOTATIONS -------------
+
+# notations.INDEX
+# PATTERN: /notations
+# TARGET: ?notations=index
+RewriteRule ^notations$ index.php?notations=index [L]
+
+# ROUTE DES USERS -------------
+
+# users.INDEX
+# PATTERN: /users
+# TARGET: ?users=index
+RewriteRule ^users$ index.php?users=index [L]
+
+# users.ADD
+# PATTERN: /users/add
+# TARGET: ?users=add
+RewriteRule ^users\/add$ index.php?users=add [L]
+
+# users.CREATE
+# PATTERN: /users/create
+# TARGET: ?users=create
+RewriteRule ^users\/create$ index.php?users=create [L]
+
+# users.DELETE
+# PATTERN: /users/delete
+# TARGET: ?users=delete
+RewriteRule ^users\/([1-9][0-9]*)\/delete$ index.php?users=delete&id=$1 [L]
+
+# users.update
+# PATTERN: /users/update/form
+# TARGET: ?users=updateForm
+RewriteRule ^users\/([1-9][0-9]*)\/update/form$ index.php?users=updateForm&id=$1 [L]
+
+# users.update
+# PATTERN: /users/update
+# TARGET: ?users=update
+RewriteRule ^users/update$ index.php?users=update [L]
+
+# --------------------------------------------------
+RewriteCond %{REQUEST_URI} !\.(js|css|jpg|gif|zip|png|pdf)$ [NC]
+RewriteRule ^(.*)$ index.php [L]
+
 
 # --------------------------------------------------
 RewriteCond %{REQUEST_URI} !\.(js|css|jpg|gif|zip|png|pdf)$ [NC]

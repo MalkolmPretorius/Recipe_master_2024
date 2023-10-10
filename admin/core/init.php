@@ -10,8 +10,11 @@ require_once '../core/connexion.php';
 // 3. Charge les Tools
 require_once '../core/tools.php';
 
-// 4. charge les constantes
+// 3. Charge du videur
+require_once '../core/bouncer.php';
+
+// 5. charge les constantes
 require_once '../core/constance.php';
 
-// 5. charge la protection
+// 6. charge la protection
 require_once '../core/protection.php';

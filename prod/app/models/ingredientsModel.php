@@ -13,7 +13,7 @@ function findAll(\PDO $connexion): array
 
 function findAllByDishesId(\PDO $connexion, int $id): array
 {
-    $sql = "SELECT i.name,i.id AS id_ingredients
+    $sql = "SELECT i.name,i.id AS id_ingredients, ROUND(dhi.quantity,0)  AS quantité
             FROM ingredients i
             JOIN  dishes_has_ingredients dhi ON dhi.ingredient_id = i.id
             JOIN dishes d ON dhi.dish_id = d.id

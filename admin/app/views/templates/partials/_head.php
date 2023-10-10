@@ -6,8 +6,9 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <link rel="icon" href="../../favicon.ico" />
+  <base href="<?php echo ADMIN_ROOT; ?> ">
 
-  <title>Book Hunter - <?php echo $title; ?></title>
+  <title>Recipe Master - <?php echo $title; ?></title>
 
   <!-- Bootstrap core CSS -->
   <!-- Font Awesome -->

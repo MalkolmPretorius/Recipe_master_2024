@@ -10,6 +10,6 @@ define('DB_NAME', 'recipe_master');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 
-define('PUBLIC_ROOT', 'http://localhost/script%20serveur/EXAMEN/Recipe_master_2024/prod/public/');
+define('PUBLIC_ROOT', 'http://localhost/script_serveur/EXAMEN/Recipe_master_2024/prod/public/');
 define('PUBLIC_FOLDER', 'prod');
 define('ADMIN_FOLDER', 'admin');

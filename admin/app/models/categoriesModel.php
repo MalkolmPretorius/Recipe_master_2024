@@ -1,33 +1,19 @@
 <?php
 
-namespace App\Models\UsersModel;
-
-function findOneByLoginPassword(\PDO $connexion, array $data = null)
-{
-    $sql = "SELECT *
-            FROM users
-            WHERE name = :login
-            AND password = :pwd;";
-    $rs = $connexion->prepare($sql);
-    $rs->bindValue(':login', $data['login'], \PDO::PARAM_STR);
-    $rs->bindValue(':pwd', $data['pwd'], \PDO::PARAM_STR);
-    $rs->execute();
-    return $rs->fetch(\PDO::FETCH_ASSOC);
-}
-
+namespace App\Models\CategoriesModel;
 
 function findAll(\PDO $connexion): array
 {
-    $sql = "SELECT * 
-            FROM  users u
-            ORDER BY u.id ASC;";
+    $sql = "SELECT *
+            FROM types_of_dishes
+            ORDER BY id ASC;";
     $rs = $connexion->query($sql);
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 function insertOne(\PDO $connexion, array $data)
 {
-    $sql = "INSERT INTO users
+    $sql = "INSERT INTO types_of_dishes
             SET name = :name,
                 created_at = NOW();";
     $rs = $connexion->prepare($sql);
@@ -37,7 +23,7 @@ function insertOne(\PDO $connexion, array $data)
 
 function deleteOne(\PDO $connexion, int $id)
 {
-    $sql = "DELETE FROM users 
+    $sql = "DELETE FROM types_of_dishes
             WHERE id  = :id;";
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':id', $id, \PDO::PARAM_STR);
@@ -46,15 +32,13 @@ function deleteOne(\PDO $connexion, int $id)
 
 function updateOne(\PDO $connexion, array $data)
 {
-    $sql = "UPDATE users
+    $sql = "UPDATE types_of_dishes
             SET name = :name,
-            email = :email,
-            biography = :biography
+            description = :description
             WHERE id = :id;";
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':name', $data['name'], \PDO::PARAM_STR);
-    $rs->bindValue(':email', $data['email'], \PDO::PARAM_STR);
-    $rs->bindValue(':biography', $data['biography'], \PDO::PARAM_STR);
+    $rs->bindValue(':description', $data['description'], \PDO::PARAM_STR);
     $rs->bindValue(':id',$data['id'], \PDO::PARAM_STR);
     return $rs->execute();
 }
@@ -62,7 +46,7 @@ function updateOne(\PDO $connexion, array $data)
 function findOneById(\PDO $connexion, int $id)
 {
     $sql = "SELECT *
-            FROM  users
+            FROM  types_of_dishes
             WHERE id = :id;";
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':id', $id, \PDO::PARAM_STR);

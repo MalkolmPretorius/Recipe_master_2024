@@ -4,11 +4,14 @@ namespace App\Models\RecipesModel;
 
 function findAllPopulars(\PDO $connexion): array
 {
-    $sql = "SELECT d.name AS nom_recette,u.name AS auteur,d.description AS description_recette,ROUND(AVG(r.value), 1) AS notation_moyenne,COUNT(c.id) AS nombre_commentaires,d.id AS id
+    $sql = "SELECT d.name AS nom_recette,u.name AS auteur,d.description AS description_recette,ROUND(AVG(r.value), 1) AS notation_moyenne,COALESCE(compteur_commentaires, 0) AS nombre_commentaires,d.id AS id
             FROM dishes d
             JOIN users u ON d.user_id = u.id
             LEFT JOIN ratings r ON d.id = r.dish_id
-            LEFT JOIN  comments c ON d.id = c.dish_id
+            LEFT JOIN (
+            SELECT dish_id, COUNT(id) AS compteur_commentaires
+            FROM comments
+            GROUP BY dish_id ) c ON d.id = c.dish_id
             GROUP BY d.id
             ORDER BY AVG(r.value) DESC
             LIMIT 3;";
@@ -29,11 +32,14 @@ function findAllLastRecipes(\PDO $connexion): array
 
 function randomRecipe(\PDO $connexion): array
 {
-    $sql = "SELECT d.name AS nom_recette,r.value AS notation,u.name AS auteur,COUNT(c.id) AS nombre_commentaires,d.id AS id
+    $sql = "SELECT d.name AS nom_recette,r.value AS notation,u.name AS auteur,COALESCE(compteur_commentaires, 0) AS nombre_commentaires,d.id AS id
             FROM dishes d
             INNER JOIN users u ON d.user_id = u.id
             LEFT JOIN ratings r ON d.id = r.dish_id
-            LEFT JOIN comments c ON d.id = c.dish_id
+            LEFT JOIN (
+            SELECT dish_id, COUNT(id) AS compteur_commentaires
+            FROM comments
+            GROUP BY dish_id ) c ON d.id = c.dish_id
             GROUP BY d.id, notation
             ORDER BY RAND()
             LIMIT 1;";
@@ -43,11 +49,14 @@ return $rs->fetchAll(\PDO::FETCH_ASSOC);
 
 function findAll(\PDO $connexion): array
 {
-    $sql = "SELECT d.name AS nom_recette,ROUND(AVG(r.value), 1)AS notation_moyenne,d.description AS description_recette,u.name AS auteur,COUNT(c.id) AS nombre_commentaires,d.id AS id
+    $sql = "SELECT d.name AS nom_recette,ROUND(AVG(r.value), 1)AS notation_moyenne,d.description AS description_recette,u.name AS auteur,COALESCE(compteur_commentaires, 0) AS nombre_commentaires,d.id AS id
             FROM dishes d
             JOIN users u ON d.user_id = u.id
             LEFT JOIN ratings r ON d.id = r.dish_id
-            LEFT JOIN comments c ON d.id = c.dish_id
+            LEFT JOIN (
+            SELECT dish_id, COUNT(id) AS compteur_commentaires
+            FROM comments
+            GROUP BY dish_id ) c ON d.id = c.dish_id 
             GROUP BY d.id, d.description, u.name
             ORDER BY d.created_at DESC
             LIMIT 9;";
@@ -57,15 +66,21 @@ return $rs->fetchAll(\PDO::FETCH_ASSOC);
 
 function findOneById(\PDO $connexion, int $id): array
 {
-    $sql = "SELECT d.id,d.name AS nom_recette,ROUND(AVG(r.value), 1) AS notation,d.prep_time AS temps_preparation,d.description AS description_recette,u.name AS auteur_recette,COUNT(c.id) AS nombre_commentaires, c.content AS commentaire, u.picture AS picture, i.id AS id_ingredients, i.name AS name
+    $sql = "SELECT d.id,d.name AS nom_recette,COALESCE(notation, 0) notation,d.prep_time AS temps_preparation,d.description AS description_recette,u.name AS auteur_recette,COALESCE(compteur_commentaires, 0) AS nombre_commentaires,commentaire, u.picture AS picture, i.id AS id_ingredients, i.name AS name
             FROM dishes d
             JOIN users u ON d.user_id = u.id
             JOIN dishes_has_ingredients dhi ON dhi.dish_id = d.id
             JOIN ingredients i ON dhi.ingredient_id = i.id
-            LEFT JOIN ratings r ON d.id = r.dish_id
-            LEFT JOIN comments c ON d.id = c.dish_id
+            LEFT JOIN (
+            SELECT dish_id, ROUND(AVG(value), 1) AS notation
+            FROM ratings
+            GROUP BY dish_id ) r ON d.id = r.dish_id
+            LEFT JOIN (
+            SELECT dish_id,content AS commentaire, COUNT(id) AS compteur_commentaires
+            FROM comments
+            GROUP BY dish_id,commentaire ) c ON d.id = c.dish_id
             WHERE d.id = :id
-            GROUP BY d.id,c.content,i.id
+            GROUP BY d.id,commentaire,i.id
             LIMIT 1;";
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':id', $id, \PDO::PARAM_INT);
