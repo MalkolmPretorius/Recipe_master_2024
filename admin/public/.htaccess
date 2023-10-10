@@ -10,6 +10,38 @@ RewriteEngine on
 # TARGET: ?users=logout
 RewriteRule ^users\/logout$ index.php?users=logout [L]
 
+# ROUTE DES recipes -------------
+
+# recipes.INDEX
+# PATTERN: /recipes
+# TARGET: ?recipes=index
+RewriteRule ^recipes$ index.php?recipes=index [L]
+
+# recipes.ADD
+# PATTERN: /recipes/add
+# TARGET: ?recipes=add
+RewriteRule ^recipes\/add$ index.php?recipes=add [L]
+
+# recipes.CREATE
+# PATTERN: /recipes/create
+# TARGET: ?recipes=create
+RewriteRule ^recipes\/create$ index.php?recipes=create [L]
+
+# recipes.DELETE
+# PATTERN: /recipes/delete
+# TARGET: ?recipes=delete
+RewriteRule ^recipes\/([1-9][0-9]*)\/delete$ index.php?recipes=delete&id=$1 [L]
+
+# recipes.update
+# PATTERN: /recipes/update/form
+# TARGET: ?recipes=updateForm
+RewriteRule ^recipes\/([1-9][0-9]*)\/update/form$ index.php?recipes=updateForm&id=$1 [L]
+
+# recipes.update
+# PATTERN: /recipes/update
+# TARGET: ?recipes=update
+RewriteRule ^recipes/update$ index.php?recipes=update [L]
+
 # ROUTE DES CATEGORIES -------------
 
 # CATEGORIES.INDEX
@@ -42,37 +74,37 @@ RewriteRule ^categories\/([1-9][0-9]*)\/update/form$ index.php?categories=update
 # TARGET: ?categories=update
 RewriteRule ^categories/update$ index.php?categories=update [L]
 
-# ROUTE DES users -------------
+# ROUTE DES INGREDIENTS -------------
 
-# users.INDEX
-# PATTERN: /users
-# TARGET: ?users=index
-RewriteRule ^users$ index.php?users=index [L]
+# ingredients.INDEX
+# PATTERN: /ingredients
+# TARGET: ?ingredients=index
+RewriteRule ^ingredients$ index.php?ingredients=index [L]
 
-# users.ADD
-# PATTERN: /users/add
-# TARGET: ?users=add
-RewriteRule ^users\/add$ index.php?users=add [L]
+# ingredients.ADD
+# PATTERN: /ingredients/add
+# TARGET: ?ingredients=add
+RewriteRule ^ingredients\/add$ index.php?ingredients=add [L]
 
-# users.CREATE
-# PATTERN: /users/create
-# TARGET: ?users=create
-RewriteRule ^users\/create$ index.php?users=create [L]
+# ingredients.CREATE
+# PATTERN: /ingredients/create
+# TARGET: ?ingredients=create
+RewriteRule ^ingredients\/create$ index.php?ingredients=create [L]
 
-# users.DELETE
-# PATTERN: /users/delete
-# TARGET: ?users=delete
-RewriteRule ^users\/([1-9][0-9]*)\/delete$ index.php?users=delete&id=$1 [L]
+# ingredients.DELETE
+# PATTERN: /ingredients/delete
+# TARGET: ?ingredients=delete
+RewriteRule ^ingredients\/([1-9][0-9]*)\/delete$ index.php?ingredients=delete&id=$1 [L]
 
-# users.update
-# PATTERN: /users/update/form
-# TARGET: ?users=updateForm
-RewriteRule ^users\/([1-9][0-9]*)\/update/form$ index.php?users=updateForm&id=$1 [L]
+# ingredients.update
+# PATTERN: /ingredients/update/form
+# TARGET: ?ingredients=updateForm
+RewriteRule ^ingredients\/([1-9][0-9]*)\/update/form$ index.php?ingredients=updateForm&id=$1 [L]
 
-# users.update
-# PATTERN: /users/update
-# TARGET: ?users=update
-RewriteRule ^users/update$ index.php?users=update [L]
+# ingredients.update
+# PATTERN: /ingredients/update
+# TARGET: ?ingredients=update
+RewriteRule ^ingredients/update$ index.php?ingredients=update [L]
 
 # ROUTE DES NOTATIONS -------------
 
@@ -80,6 +112,31 @@ RewriteRule ^users/update$ index.php?users=update [L]
 # PATTERN: /notations
 # TARGET: ?notations=index
 RewriteRule ^notations$ index.php?notations=index [L]
+
+# notations.ADD
+# PATTERN: /notations/add
+# TARGET: ?notations=add
+RewriteRule ^notations\/add$ index.php?notations=add [L]
+
+# notations.CREATE
+# PATTERN: /notations/create
+# TARGET: ?notations=create
+RewriteRule ^notations\/create$ index.php?notations=create [L]
+
+# notations.DELETE
+# PATTERN: /notations/delete
+# TARGET: ?notations=delete
+RewriteRule ^notations\/([1-9][0-9]*)\/([1-9][0-9]*)\/delete$ index.php?notations=delete&usersId=$1&dishesId=$2 [L]
+
+# notations.update
+# PATTERN: /notations/update/form
+# TARGET: ?notations=updateForm
+RewriteRule ^notations\/([1-9][0-9]*)\/([1-9][0-9]*)\/update/form$ index.php?notations=updateForm&usersId=$1&dishesId=$2 [L]
+
+# notations.update
+# PATTERN: /notations/update
+# TARGET: ?notations=update
+RewriteRule ^notations/update$ index.php?notations=update [L]
 
 # ROUTE DES USERS -------------
 
@@ -117,7 +174,9 @@ RewriteRule ^users/update$ index.php?users=update [L]
 RewriteCond %{REQUEST_URI} !\.(js|css|jpg|gif|zip|png|pdf)$ [NC]
 RewriteRule ^(.*)$ index.php [L]
 
-
+# -------------------------------------------------
+# ROUTE par défault
+RewriteRule ^home$ index.php [L]
 # --------------------------------------------------
 RewriteCond %{REQUEST_URI} !\.(js|css|jpg|gif|zip|png|pdf)$ [NC]
 # RewriteRule ^(.*)$ index.php [L]

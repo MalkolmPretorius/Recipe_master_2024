@@ -1,7 +1,7 @@
 <?php
 /*
     Variables disponibles
-        $categories ARRAY(ARRAY(id, name, created_at))
+        $users ARRAY(ARRAY(id, name, created_at))
 */
 ?>
 <div class="page-header">

@@ -7,7 +7,7 @@ use \App\Models\CategoriesModel;
 include_once '../app/models/categoriesModel.php';
 
 
-function indexCategoriesAction(\PDO $connexion)
+function indexCategoriesAction(\PDO $connexion) : void
 {
     // Je mets le findAll() dans $categories
     $categories = CategoriesModel\findAll($connexion);
@@ -20,7 +20,7 @@ function indexCategoriesAction(\PDO $connexion)
     $content1 = ob_get_clean();
 }
 
-function addCategoriesAction()
+function addCategoriesAction() : void
 {
     // Je charge la vue categories.add dans $content
     global $title, $content1;
@@ -30,25 +30,25 @@ function addCategoriesAction()
     $content1 = ob_get_clean();
 }
 
-function createCategoriesAction(\PDO $connexion, array $data)
+function createCategoriesAction(\PDO $connexion, array $data) : void
 {
-    $categorie = CategoriesModel\insertOne($connexion, $data);
+    CategoriesModel\insertOne($connexion, $data);
     header('location: ' . ADMIN_ROOT  . 'categories');
 }
 
-function deleteCategoriesAction(\PDO $connexion, int $id)
+function deleteCategoriesAction(\PDO $connexion, int $id) : void
 {
-    $categorie = CategoriesModel\deleteOne($connexion, $id);
+    CategoriesModel\deleteOne($connexion, $id);
     header('location: ' . ADMIN_ROOT  . 'categories');
 }
 
-function updateCategoriesAction(\PDO $connexion, array $data)
+function updateCategoriesAction(\PDO $connexion, array $data) : void
 {
-    $categorie = CategoriesModel\updateOne($connexion, $data);
+    CategoriesModel\updateOne($connexion, $data);
     header('location: ' . ADMIN_ROOT  . 'categories');
 }
 
-function updateCategoryFormAction(\PDO $connexion, int $id)
+function updateCategoryFormAction(\PDO $connexion, int $id) : void
 {
     $category = CategoriesModel\findOneById($connexion, $id);
 

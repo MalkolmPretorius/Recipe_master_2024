@@ -12,13 +12,28 @@ switch ($_GET['users']):
             UsersController\addUsersAction();
             break;
         case 'create':
-            UsersController\createUsersAction($connexion, $_POST);
+            UsersController\createUsersAction($connexion, [
+                'id' => $_POST['id'],
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'password' => $_POST['password'],
+                'biography' => $_POST['biography'],
+                'picture' => $_FILES['picture']
+            ]);
             break;
         case 'delete':
              UsersController\deleteUsersAction($connexion, $_GET['id']);
             break;
         case 'update':
-             UsersController\updateUsersAction($connexion,$_POST);
+             UsersController\updateUsersAction($connexion,[
+                'id' => $_POST['id'],
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'password' => $_POST['password'],
+                'biography' => $_POST['biography'],
+                'new_picture' => $_FILES['new_picture'],
+                'old_picture' => $_POST['old_picture']
+            ]);
              break;
         case 'updateForm':
             UsersController\updateUserFormAction($connexion, $_GET['id']);

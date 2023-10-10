@@ -11,7 +11,7 @@ function findAll(\PDO $connexion): array
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
 
-function insertOne(\PDO $connexion, array $data)
+function insertOne(\PDO $connexion, array $data) : bool
 {
     $sql = "INSERT INTO types_of_dishes
             SET name = :name,
@@ -21,7 +21,7 @@ function insertOne(\PDO $connexion, array $data)
     return $rs->execute();
 }
 
-function deleteOne(\PDO $connexion, int $id)
+function deleteOne(\PDO $connexion, int $id) : bool
 {
     $sql = "DELETE FROM types_of_dishes
             WHERE id  = :id;";
@@ -30,7 +30,7 @@ function deleteOne(\PDO $connexion, int $id)
     return $rs->execute();
 }
 
-function updateOne(\PDO $connexion, array $data)
+function updateOne(\PDO $connexion, array $data) : bool
 {
     $sql = "UPDATE types_of_dishes
             SET name = :name,
@@ -43,7 +43,7 @@ function updateOne(\PDO $connexion, array $data)
     return $rs->execute();
 }
 
-function findOneById(\PDO $connexion, int $id)
+function findOneById(\PDO $connexion, int $id) : array
 {
     $sql = "SELECT *
             FROM  types_of_dishes

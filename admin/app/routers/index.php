@@ -7,6 +7,10 @@ if (isset($_GET[('categories')])) :
 elseif (isset($_GET[('ingredients')])) :
     include_once '../app/routers/ingredients.php';
 
+// Route des recipes
+elseif (isset($_GET[('recipes')])) :
+    include_once '../app/routers/recipes.php';
+
 // Route des notations
 elseif (isset($_GET[('notations')])):
     include_once '../app/routers/notations.php';

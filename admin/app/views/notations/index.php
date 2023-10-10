@@ -1,7 +1,7 @@
 <?php
 /*
     Variables disponibles
-        $ingredients ARRAY(ARRAY(id, name, created_at))
+        $notations ARRAY(ARRAY(id, name, created_at))
 */
 ?>
 <div class="page-header">
@@ -20,12 +20,12 @@
     <tbody>
         <?php foreach ($notations as $notation) : ?>
             <tr>
-                <td></td>
-                <td></td>
-                <td><?php echo $notation['notation'] ?></td>
+                <td><?= $notation['userId'] ?>.<?= $notation['userName'] ?></td>
+                <td><?= $notation['dishesId'] ?>.<?= $notation['dishesName'] ?></td> 
+                <td><?= $notation['notation'] ?></td>
                 <td>
-                    <button type="button" class="btn btn-primary">Modifier</button>
-                    <button type="button" class="btn btn-danger">Supprimer</button>
+                    <button type="button" class="btn btn-primary"><a style="color:white ;"  href="notations/<?= $notation['userId']?>/<?= $notation['dishesId'] ?>/update/form">Modifier</a></button>
+                    <button type="button" class="btn btn-danger"><a style="color:white ;"  href="notations/<?= $notation['userId']?>/<?= $notation['dishesId'] ?>/delete">Supprimer</a></button>
                 </td>
             </tr>
         <?php endforeach; ?>

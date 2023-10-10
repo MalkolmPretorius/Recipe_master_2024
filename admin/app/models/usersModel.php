@@ -2,7 +2,7 @@
 
 namespace App\Models\UsersModel;
 
-function findOneByLoginPassword(\PDO $connexion, array $data = null)
+function findOneByLoginPassword(\PDO $connexion, array $data = null) : array
 {
     $sql = "SELECT *
             FROM users
@@ -25,17 +25,26 @@ function findAll(\PDO $connexion): array
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
 
-function insertOne(\PDO $connexion, array $data)
+function insertOne(\PDO $connexion, array $data) : bool
 {
     $sql = "INSERT INTO users
             SET name = :name,
+            email = :email,
+            password = :password,
+            picture = :picture,
+            biography = :biography,
                 created_at = NOW();";
     $rs = $connexion->prepare($sql);
+    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
     $rs->bindValue(':name', $data['name'], \PDO::PARAM_STR);
+    $rs->bindValue(':email', $data['email'], \PDO::PARAM_STR);
+    $rs->bindValue(':password', $hashedPassword, \PDO::PARAM_STR);
+    $rs->bindValue(':picture', $data['picture']['name'], \PDO::PARAM_STR);
+    $rs->bindValue(':biography', $data['biography'], \PDO::PARAM_STR);
     return $rs->execute();
 }
 
-function deleteOne(\PDO $connexion, int $id)
+function deleteOne(\PDO $connexion, int $id) : bool
 {
     $sql = "DELETE FROM users 
             WHERE id  = :id;";
@@ -44,22 +53,27 @@ function deleteOne(\PDO $connexion, int $id)
     return $rs->execute();
 }
 
-function updateOne(\PDO $connexion, array $data)
+function updateOne(\PDO $connexion, array $data) : bool
 {
     $sql = "UPDATE users
             SET name = :name,
             email = :email,
+            password = :password,
+            picture =:picture,
             biography = :biography
             WHERE id = :id;";
     $rs = $connexion->prepare($sql);
+    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
     $rs->bindValue(':name', $data['name'], \PDO::PARAM_STR);
     $rs->bindValue(':email', $data['email'], \PDO::PARAM_STR);
+    $rs->bindValue(':password', $hashedPassword, \PDO::PARAM_STR);
     $rs->bindValue(':biography', $data['biography'], \PDO::PARAM_STR);
+    $rs->bindValue(':picture', $data['picture'], \PDO::PARAM_STR);
     $rs->bindValue(':id',$data['id'], \PDO::PARAM_STR);
     return $rs->execute();
 }
 
-function findOneById(\PDO $connexion, int $id)
+function findOneById(\PDO $connexion, int $id) : array
 {
     $sql = "SELECT *
             FROM  users
