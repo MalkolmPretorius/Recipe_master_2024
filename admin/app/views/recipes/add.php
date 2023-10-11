@@ -21,8 +21,16 @@
         </select>
         <label>Description</label>
         <textarea name="description"  cols="30" rows="10"></textarea>
-        <label for="test">Notation</label>
-        <input type="text" id="name" name="notation" placeholder="Notation" />
+        <div class="form-group">
+            <label for="ingredients">Ingredients</label>
+            <?php foreach ($ingredients as $ingredient): ?>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="ingredient_<?php echo $ingredient['id']; ?>" name="ingredients[]
+                    " value="<?php echo $ingredient['id']; ?>" >
+                    <label class="form-check-label" for="ingredient<?php echo $ingredient['id']; ?>"><?php echo $ingredient['ingredientName']; ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>
         
     </div>
     <div style="margin:5px;">

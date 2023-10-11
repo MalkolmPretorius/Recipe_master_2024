@@ -24,6 +24,7 @@ function addRecipesAction(\PDO $connexion): void
 {
     $users = RecipesModel\findAllUsers($connexion);
     $categories = RecipesModel\findAllCategories($connexion);
+    $ingredients = RecipesModel\findAllIngredients($connexion);
     // Je charge la vue recipes.add dans $content
     global $title, $content1;
     $title = "Ajouter un recipes";
@@ -34,7 +35,9 @@ function addRecipesAction(\PDO $connexion): void
 
 function createRecipesAction(\PDO $connexion, array $data)
 {
-    $recipes = RecipesModel\insertOne($connexion, $data);
+    
+    RecipesModel\insertOne($connexion, $data);
+    RecipesModel\addIngredientsToLastDish($connexion, $data);
     header('location: ' . ADMIN_ROOT  . 'recipes');
 }
 
@@ -46,8 +49,8 @@ function deleteRecipesAction(\PDO $connexion, array $data)
 }
 
 function updateRecipesAction(\PDO $connexion, array $data): void
-{
-    $Recipes = RecipesModel\updateOne($connexion, $data);
+{   
+    RecipesModel\updateOne($connexion, $data);
     header('location: ' . ADMIN_ROOT  . 'recipes');
 }
 
@@ -57,7 +60,12 @@ function updateRecipeFormAction(\PDO $connexion, array $data): void
     $recipe = RecipesModel\findOneById($connexion, $data);
     $users = RecipesModel\findAllUsers($connexion);
     $categories = RecipesModel\findAllCategories($connexion);
+    $ingredients = RecipesModel\findAllIngredients($connexion);
+    $checked = RecipesModel\findAllIngredientsByDishesId($connexion, $data['dish_id']);
+    $recipeIngredients = RecipesModel\findIngredients($connexion, $data['dish_id']);
 
+
+    $checked_id = array_column($checked, 'ingredientId');
     global $title, $content1;
     $title = "Modifier une recette";
     ob_start();

@@ -21,6 +21,34 @@ $rs = $connexion->query($sql);
 return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
 
+function findAllIngredients(\PDO $connexion): array
+{
+    $sql = "SELECT i.id,
+    i.name AS ingredientName
+    FROM   ingredients i
+    ORDER BY id ASC;";
+$rs = $connexion->query($sql);
+return $rs->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+function findIngredients(\PDO $connexion, int $id): array
+{
+    $sql = "SELECT 
+    di.id AS recipeID, 
+    di.name AS recipeName,
+    ing.id AS ingredientID,
+    ing.unit AS ingredientUnit, 
+    ing.name AS ingredientName
+    FROM dishes di
+    JOIN dishes_has_ingredients dhi ON di.id = dhi.dish_id
+    JOIN ingredients ing ON dhi.ingredient_id = ing.id
+    WHERE di.id = :dishId;";
+    $stmt = $connexion->prepare($sql);
+    $stmt->bindValue(':dishId', $id, \PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
 function findAllCategories(\PDO $connexion): array
 {
     $sql = "SELECT * 
@@ -45,6 +73,45 @@ function insertOne(\PDO $connexion, array $data)
     $rs->bindValue(':type_id', $data['type_id'], \PDO::PARAM_STR);
     return $rs->execute();
 }
+function addIngredientsToLastDish(\PDO $connexion, array $data)
+{
+    $dishId = $connexion->lastInsertId();
+    $sql = "INSERT INTO dishes_has_ingredients(dish_id,ingredient_id,quantity)
+            values (:dishId,:newIngredientId, 0)";
+    $rs = $connexion->prepare($sql);
+    foreach ($data['ingredients'] as $newIngredient) {
+        $rs->bindValue(':newIngredientId', $newIngredient, \PDO::PARAM_INT);
+        $rs->bindValue(':dishId', $dishId, \PDO::PARAM_INT);
+        $rs->execute();
+    }
+    
+}
+
+function addIngredients(\PDO $connexion, array $data, int $id)
+{
+    $sql = "INSERT INTO dishes_has_ingredients(dish_id,ingredient_id,quantity)
+            values (:dishId,:newIngredientId, 0)";
+    $rs = $connexion->prepare($sql);
+    foreach ($data['ingredients'] as $newIngredient) {
+        $rs->bindValue(':newIngredientId', $newIngredient, \PDO::PARAM_INT);
+        $rs->bindValue(':dishId', $id, \PDO::PARAM_INT);
+        $rs->execute();
+    }
+    
+}
+
+function deleteIngredients(\PDO $connexion, array $data, int $id) : bool
+{
+    $sql = "DELETE FROM ingredients 
+            WHERE id  = :dish_id;";
+    $rs = $connexion->prepare($sql);
+    $rs->bindValue(':dish_id', $id, \PDO::PARAM_STR);
+    return $rs->execute();
+}
+
+
+
+
 
 function deleteOne(\PDO $connexion, array $data) : bool
 {
@@ -56,57 +123,40 @@ function deleteOne(\PDO $connexion, array $data) : bool
     $rs->bindValue(':dish_id', $data['dish_id'], \PDO::PARAM_STR);
     return $rs->execute();
 }
-    function updateOne(\PDO $connexion, array $data): bool
-{
-    // Démarrez la transaction
-    $connexion->beginTransaction();
 
-    try {
-        // Effectuez d'abord la mise à jour dans la table "dishes"
-        $sqlDishes = "UPDATE dishes d
-                     SET user_id = :user_id,
-                     d.id = :dish_id,
-                     name = :dish_name,
-                     type_id = :type_id,
-                     description = :description,
-                     WHERE user_Id  = :oldUserId
-                    AND d.id  = :oldDishId";
-        $rsDishes = $connexion->prepare($sqlDishes);
-        $rsDishes->bindValue(':user_id', $data['user_id'], \PDO::PARAM_INT);
-        $rsDishes->bindValue(':dish_id', $data['dish_id'], \PDO::PARAM_INT);
-        $rsDishes->bindValue(':dish_name', $data['dish_name'], \PDO::PARAM_INT);
-        $rsDishes->bindValue(':type_id', $data['type_id'], \PDO::PARAM_INT);
-        $rsDishes->bindValue(':description', $data['description'], \PDO::PARAM_INT);
-        $rsDishes->bindValue(':oldUserId', $data['oldUserId'], \PDO::PARAM_INT);
-        $rsDishes->bindValue(':oldDishId', $data['oldDishId'], \PDO::PARAM_INT);
-        $rsDishes->execute();
+function updateOne(\PDO $connexion, array $data)
+    {
+        $sql = "UPDATE dishes
+                SET user_id = :user_id,
+                name = :dish_name,
+                type_id = :type_id,
+                description = :description
+                WHERE id  = :dish_id;";
+        $rs = $connexion->prepare($sql);
+        $rs->bindValue(':user_id', $data['user_id'], \PDO::PARAM_STR);
+        $rs->bindValue(':dish_name', $data['dish_name'], \PDO::PARAM_STR);
+        $rs->bindValue(':type_id', $data['type_id'], \PDO::PARAM_STR);
+        $rs->bindValue(':description', $data['description'], \PDO::PARAM_STR);
+        $rs->bindValue(':dish_id', $data['dish_id'], \PDO::PARAM_STR);
+        $rs->execute();
 
-        // Ensuite, mettez à jour d'autres tables selon vos besoins
-        // Exemple :
-        $sqlTable2 = "UPDATE ratings
-                     SET value = :notation,
-                     user_id = :user_id,
-                     dish_id = :dish_id,
-                     WHERE user_Id  = :oldUserId
-                    AND dish_id  = :oldDishId;";
-        $rsTable2 = $connexion->prepare($sqlTable2);
-        $rsTable2->bindValue(':user_id', $data['user_id'], \PDO::PARAM_INT);
-        $rsTable2->bindValue(':dish_id', $data['dish_id'], \PDO::PARAM_INT);
-        $rsTable2->bindValue(':notation', $data['notation'], \PDO::PARAM_STR);  
-        $rsTable2->bindValue(':oldUserId', $data['oldUserId'], \PDO::PARAM_INT);
-        $rsTable2->bindValue(':oldDishId', $data['oldDishId'], \PDO::PARAM_INT);
-        $rsTable2->execute();
+        $sql = "DELETE FROM dishes_has_ingredients 
+                WHERE dish_id  = :dish_id;";
+        $rs = $connexion->prepare($sql);
+        $rs->bindValue(':dish_id', $data['dish_id'], \PDO::PARAM_STR);
+        $rs->execute();
 
-        // Commit pour valider la transaction
-        $connexion->commit();
-
-        return true; // Tout s'est bien passé
-    } catch (\Exception $e) {
-        // En cas d'erreur, annulez la transaction
-        $connexion->rollback();
-        return false; // Une erreur s'est produite
+        if (!empty($data['ingredients'])) {
+            $sql = "INSERT INTO dishes_has_ingredients(dish_id,ingredient_id,quantity)
+                    values (:dish_id,:newIngredientId, 0)";
+            $rs = $connexion->prepare($sql);
+            foreach ($data['ingredients'] as $newIngredient) {
+                $rs->bindValue(':newIngredientId', $newIngredient, \PDO::PARAM_INT);
+                $rs->bindValue(':dish_id', $data['dish_id'], \PDO::PARAM_INT);
+                $rs->execute();
+            }
+        }
     }
-}
 
 
 
@@ -133,3 +183,19 @@ function findOneById(\PDO $connexion, array $data): array
     $result = $rs->fetch(\PDO::FETCH_ASSOC);
     return $result !== false ? $result : [];
 }
+
+function findAllIngredientsByDishesId(\PDO $connexion, int $id){
+        $sql = 
+        "SELECT
+            i.id AS ingredient_id
+        FROM
+            dishes_has_ingredients dhi
+        JOIN
+            ingredients i ON dhi.ingredient_id = i.id
+        WHERE
+            dhi.dish_id = :id;";
+        $rs = $connexion->prepare($sql);
+        $rs->bindValue(':id', $id, \PDO::PARAM_INT);
+        $rs->execute();
+        return $rs->fetchAll(\PDO::FETCH_ASSOC);
+    }

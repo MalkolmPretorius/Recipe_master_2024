@@ -85,7 +85,12 @@ function findOneById(\PDO $connexion, int $id): array
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':id', $id, \PDO::PARAM_INT);
     $rs->execute();
-    return $rs->fetch(\PDO::FETCH_ASSOC);
+    $result = $rs->fetch(\PDO::FETCH_ASSOC);
+    if ($result === false) {
+        return []; // Retourne un tableau vide si aucune donnée n'a été trouvée
+    }
+
+    return $result;
 }
 
  function findAllByUserId(\PDO $connexion, int $id): array
