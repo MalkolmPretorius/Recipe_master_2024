@@ -30,12 +30,12 @@ RewriteRule ^recipes\/create$ index.php?recipes=create [L]
 # recipes.DELETE
 # PATTERN: /recipes/delete
 # TARGET: ?recipes=delete
-RewriteRule ^recipes\/([1-9][0-9]*)\/delete$ index.php?recipes=delete&id=$1 [L]
+RewriteRule ^recipes\/([1-9][0-9]*)\/([1-9][0-9]*)\/delete$ index.php?recipes=delete&usersId=$1&dishesId=$2 [L]
 
 # recipes.update
 # PATTERN: /recipes/update/form
 # TARGET: ?recipes=updateForm
-RewriteRule ^recipes\/([1-9][0-9]*)\/update/form$ index.php?recipes=updateForm&id=$1 [L]
+RewriteRule ^recipes\/([1-9][0-9]*)\/([1-9][0-9]*)\/update/form$ index.php?recipes=updateForm&usersId=$1&dishesId=$2 [L]
 
 # recipes.update
 # PATTERN: /recipes/update

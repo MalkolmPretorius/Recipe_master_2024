@@ -15,9 +15,11 @@ function insertOne(\PDO $connexion, array $data) : bool
 {
     $sql = "INSERT INTO types_of_dishes
             SET name = :name,
+            description = :description,
                 created_at = NOW();";
     $rs = $connexion->prepare($sql);
     $rs->bindValue(':name', $data['name'], \PDO::PARAM_STR);
+    $rs->bindValue(':description', $data['description'], \PDO::PARAM_STR);
     return $rs->execute();
 }
 
@@ -53,3 +55,4 @@ function findOneById(\PDO $connexion, int $id) : array
     $rs->execute();
     return $rs->fetch(\PDO::FETCH_ASSOC);
 }
+

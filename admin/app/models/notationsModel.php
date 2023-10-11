@@ -14,7 +14,7 @@ function findAll(\PDO $connexion): array
     FROM ratings r
     JOIN dishes d ON r.dish_id = d.id
     JOIN users u ON r.user_id = u.id
-    ORDER BY r.created_at DESC;";
+    ORDER BY userId ASC;";
     $rs = $connexion->query($sql);
     return $rs->fetchAll(\PDO::FETCH_ASSOC);
 }
